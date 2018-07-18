@@ -1,0 +1,65 @@
+/*The commented out block below was used for debugging the layout's paddings and margins*/
+/** {
+	border-width: 1px;
+	border-style: solid;
+	border-color: red;
+}*/
+
+body {
+	/*  Background fallback in case of IE8 & down, or in case video doesn't load, such as with slower connections  */
+	background: url(../images/background.jpg) center center no-repeat fixed #464646;
+
+    /*This is what makes the background image rescale based on the container's size
+    Use vendor prefixes to support different browsers*/
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    color: #ffffff;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+.container {
+    padding-bottom: 24px;
+}
+
+.jumbotron {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+#left-train-logo, #right-train-logo {
+    border-radius: 35%;
+}
+
+#right-train-logo {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+#train-table-body {
+    font-weight: bold;
+}
+
+.table-hover tbody tr:hover td {
+    background: #000000;
+}
+
+.train-now {
+    color: #ff0000;
+    text-transform: uppercase;
+}
+
+.fa-pencil-square-o, .fa-trash {
+     cursor: pointer;
+}
+
+input {
+    text-align: center;
+}
+
+.feedback {
+    text-decoration: underline;
+    text-decoration-color: red;
+}
