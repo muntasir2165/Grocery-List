@@ -10,6 +10,7 @@ $(document).ready(function() {
 	addGroceryItemFormSubmissionEventListener();
 	displayGroceryInfoTable();
 	clearGroceryForm();
+	purchaseGroceryItemShoppingCartIconClickListener();
 	updateGroceryItemInfoPencilSquareIconClickListener();
 	deleteGroceryItemInfoTrashIconClickListener();
 	// seedData();
@@ -28,10 +29,12 @@ function initializeFirebase() {
 	return firebase.database();
 }
 
-function deleteGroceryItemInfoTrashIconClickListener() {
-    $(document).on("click", "i.fa-trash", function() {
+function purchaseGroceryItemShoppingCartIconClickListener() {
+    $(document).on("click", "i.fa-shopping-cart", function() {
     	var databaseKey = $(this).attr("data-key");
-		database.ref().child(databaseKey).remove();
+    	var groceryItemToUpdate = getGroceryItem(databaseKey);
+    	groceryItemToUpdate.isPurchased = !groceryItemToUpdate.isPurchased;
+		updateGroceryItemInfoToDatabase(databaseKey, groceryItemToUpdate);
 	});
 }
 
@@ -39,7 +42,14 @@ function updateGroceryItemInfoPencilSquareIconClickListener() {
     $(document).on("click", "i.fa-pencil-square-o", function() {
     	var databaseKey = $(this).attr("data-key");
     	var groceryItemToUpdate = getGroceryItem(databaseKey);
-		modifyFormForUpdateGroceryItemInfo(groceryItemToUpdate);
+ 		modifyFormForUpdateGroceryItemInfo(groceryItemToUpdate);
+	});
+}
+
+function deleteGroceryItemInfoTrashIconClickListener() {
+    $(document).on("click", "i.fa-trash", function() {
+    	var databaseKey = $(this).attr("data-key");
+		database.ref().child(databaseKey).remove();
 	});
 }
 
@@ -170,6 +180,11 @@ function displayGroceryInfoTable() {
 
 function generateGroceryItemHtml(groceryItem) {
 	var tableRow = $("<tr>");
+	if (groceryItem.isPurchased) {
+		tableRow.addClass("purchased-grocery-item");
+	} else {
+		tableRow.addClass("not-purchased-grocery-item");
+	}
 	
 	var groceryItemNameTableCell = $("<td>");
 	groceryItemNameTableCell.text(groceryItem.groceryItemName);
@@ -180,8 +195,12 @@ function generateGroceryItemHtml(groceryItem) {
 	tableRow.append(notesTableCell);
 
 	var purchasedTableCell = $("<td>");
-	purchasedTableCell.text(groceryItem.isPurchased);
+	purchasedTableCell.text(groceryItem.isPurchased ? "Yes" : "No");
 	tableRow.append(purchasedTableCell);
+
+	var buyGroceryItemTableCell = $("<td>");
+	buyGroceryItemTableCell.html("<i data-key=\""+ groceryItem.databaseKey + "\" class=\"fa fa-shopping-cart fa-2x\" aria-hidden=\"true\"></i>");
+	tableRow.append(buyGroceryItemTableCell);
 
 	var updateGroceryItemInfoTableCell = $("<td>");
 	updateGroceryItemInfoTableCell.html("<i data-key=\""+ groceryItem.databaseKey + "\" class=\"fa fa-pencil-square-o fa-2x\" aria-hidden=\"true\"></i>");
@@ -190,7 +209,7 @@ function generateGroceryItemHtml(groceryItem) {
 	var deleteGroceryItemInfoTableCell = $("<td>");
 	deleteGroceryItemInfoTableCell.html("<i data-key=\""+ groceryItem.databaseKey + "\" class=\"fa fa-trash fa-2x\" aria-hidden=\"true\"></i>");
 	tableRow.append(deleteGroceryItemInfoTableCell);
-
+	
 	return tableRow;
 }
 
@@ -221,7 +240,7 @@ function getGroceryInfoFromDatabase() {
 
 		// Change the HTML using jQuery to reflect the updated grocery info table
 		displayGroceryInfoTable();
-		console.log("groceryInfoArray length: " + groceryInfoArray.length);
+		// console.log("groceryInfoArray length: " + groceryInfoArray.length);
 
 	// If any errors are experienced, log them to console.
 	}, function(errorObject) {
@@ -230,9 +249,9 @@ function getGroceryInfoFromDatabase() {
 }
 
 function seedData() {
-	addGroceryItemInfoToDatabase({});
-	addGroceryItemInfoToDatabase({});
-	addGroceryItemInfoToDatabase({});
+	addGroceryItemInfoToDatabase({"groceryItemName":"Apples","notes":"Buy 4","isPurchased":false});
+	addGroceryItemInfoToDatabase({"groceryItemName":"Bananas","notes":"Buy a dozen","isPurchased":false});
+	addGroceryItemInfoToDatabase({"groceryItemName":"Milk","notes":"Buy 2%","isPurchased":false});
 }
 
 

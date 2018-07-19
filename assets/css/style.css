@@ -48,8 +48,15 @@ body {
     background: #ffffff;
 }
 
-.fa-pencil-square-o, .fa-trash {
+.fa-shopping-cart, .fa-pencil-square-o, .fa-trash {
      cursor: pointer;
+}
+
+.not-purchased-grocery-item {
+    color: #ff0000;
+}
+.purchased-grocery-item {
+    color: #00ff00;
 }
 
 input {
