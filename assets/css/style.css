@@ -16,7 +16,7 @@ body {
     -o-background-size: cover;
     background-size: cover;
 
-    color: #ffffff;
+    color: #000000;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 
@@ -29,26 +29,23 @@ body {
     color: #ffffff;
 }
 
-#left-train-logo, #right-train-logo {
-    border-radius: 35%;
+#left-cart-logo, #right-cart-logo {
+    border-radius: 25%;
+    width: 140px;
+    height: 100px;
 }
 
-#right-train-logo {
+#right-cart-logo {
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
 }
 
-#train-table-body {
+#grocery-table-body {
     font-weight: bold;
 }
 
 .table-hover tbody tr:hover td {
-    background: #000000;
-}
-
-.train-now {
-    color: #ff0000;
-    text-transform: uppercase;
+    background: #ffffff;
 }
 
 .fa-pencil-square-o, .fa-trash {
